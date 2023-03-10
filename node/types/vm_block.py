@@ -2333,6 +2333,16 @@ class BlockHeader(Serialize, Deserialize):
                self.coinbase_accumulator_point == other.coinbase_accumulator_point and \
                self.metadata == other.metadata
 
+    def __str__(self):
+        return f"""
+        BlockHeader: {{
+            previous_state_root: {self.previous_state_root}
+            transactions_root: {self.transactions_root}
+            coinbase_accumulator_point: {self.coinbase_accumulator_point}
+            metadata: {self.metadata}
+        }}
+        """
+
 
 class PuzzleCommitment(Serialize, Deserialize):
 
