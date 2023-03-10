@@ -112,9 +112,9 @@ class Database:
         if transition.finalize.value is not None:
             for finalize_index, finalize in enumerate(transition.finalize.value):
                 transition_finalize_db_id = await conn.fetchval(
-                   "INSERT INTO transition_finalize (transition_id, type, index) VALUES ($1, $2, $3) "
-                   "RETURNING id",
-                   transition_db_id, finalize.type.name, finalize_index
+                    "INSERT INTO transition_finalize (transition_id, type, index) VALUES ($1, $2, $3) "
+                    "RETURNING id",
+                    transition_db_id, finalize.type.name, finalize_index
                 )
                 match finalize.type:
                     case Value.Type.Plaintext:
@@ -211,13 +211,15 @@ class Database:
                                     await conn.execute(
                                         "INSERT INTO program_function (program_id, name, input, input_mode, output, output_mode, finalize) "
                                         "VALUES ($1, $2, $3, $4, $5, $6, $7)",
-                                        program_db_id, str(function.name), inputs, input_modes, outputs, output_modes, finalizes
+                                        program_db_id, str(function.name), inputs, input_modes, outputs, output_modes,
+                                        finalizes
                                     )
 
                                 fee_db_id = await conn.fetchval(
                                     "INSERT INTO fee (transaction_id, global_state_root, inclusion_proof) "
                                     "VALUES ($1, $2, $3) RETURNING id",
-                                    transaction_db_id, str(transaction.fee.global_state_root), transaction.fee.inclusion_proof.dumps()
+                                    transaction_db_id, str(transaction.fee.global_state_root),
+                                    transaction.fee.inclusion_proof.dumps()
                                 )
                                 await self._insert_transition(conn, None, fee_db_id, transaction.fee.transition, 0)
 
@@ -237,7 +239,8 @@ class Database:
 
                                 transition: Transition
                                 for ts_index, transition in enumerate(transaction.execution.transitions):
-                                    await self._insert_transition(conn, execute_transaction_db_id, None, transition, ts_index)
+                                    await self._insert_transition(conn, execute_transaction_db_id, None, transition,
+                                                                  ts_index)
 
                                 if transaction.additional_fee.value is not None:
                                     fee: Fee = transaction.additional_fee.value
@@ -248,9 +251,9 @@ class Database:
                                     )
                                     await self._insert_transition(conn, None, fee_db_id, fee.transition, 0)
 
-
                     if block.coinbase.value is not None:
-                        coinbase_reward = block.get_coinbase_reward((await self.get_latest_block()).header.metadata.last_coinbase_timestamp)
+                        coinbase_reward = block.get_coinbase_reward(
+                            (await self.get_latest_block()).header.metadata.last_coinbase_timestamp)
                         await conn.execute(
                             "UPDATE block SET coinbase_reward = $1 WHERE id = $2",
                             coinbase_reward, block_db_id
@@ -258,8 +261,8 @@ class Database:
                         partial_solutions = list(block.coinbase.value.partial_solutions)
                         solutions = []
                         partial_solutions = list(zip(partial_solutions,
-                                                [partial_solution.commitment.to_target() for partial_solution in
-                                                 partial_solutions]))
+                                                     [partial_solution.commitment.to_target() for partial_solution in
+                                                      partial_solutions]))
                         target_sum = sum(target for _, target in partial_solutions)
                         partial_solution: PartialSolution
                         for partial_solution, target in partial_solutions:
@@ -268,7 +271,8 @@ class Database:
                         coinbase_solution_db_id = await conn.fetchval(
                             "INSERT INTO coinbase_solution (block_id, proof_x, proof_y_positive, target_sum) "
                             "VALUES ($1, $2, $3, $4) RETURNING id",
-                            block_db_id, str(block.coinbase.value.proof.w.x), block.coinbase.value.proof.w.flags, target_sum
+                            block_db_id, str(block.coinbase.value.proof.w.x), block.coinbase.value.proof.w.flags,
+                            target_sum
                         )
                         current_total_credit = await conn.fetchval("SELECT total_credit FROM leaderboard_total")
                         if current_total_credit is None:
@@ -299,9 +303,11 @@ class Database:
                                 sum(reward for _, _, reward in solutions)
                             )
 
-                    await self.message_callback(ExplorerMessage(ExplorerMessage.Type.DatabaseBlockAdded, block.header.metadata.height))
+                    await self.message_callback(
+                        ExplorerMessage(ExplorerMessage.Type.DatabaseBlockAdded, block.header.metadata.height))
                 except Exception as e:
                     await self.message_callback(ExplorerMessage(ExplorerMessage.Type.DatabaseError, e))
+                    print("save block error:", e)
                     breakpoint()
                     raise
 
@@ -624,7 +630,6 @@ class Database:
             start, end
         )
         return [await Database._get_fast_block(block, conn) for block in blocks]
-
 
     async def get_latest_height(self):
         async with self.pool.acquire() as conn:
@@ -989,7 +994,7 @@ class Database:
                 await self.message_callback(ExplorerMessage(ExplorerMessage.Type.DatabaseError, e))
                 raise
 
-    async def get_address_speed(self, address: str) -> (float, int): # (speed, interval)
+    async def get_address_speed(self, address: str) -> (float, int):  # (speed, interval)
         conn: asyncpg.Connection
         async with self.pool.acquire() as conn:
             interval_list = [900, 1800, 3600, 14400, 43200, 86400]
@@ -1123,7 +1128,6 @@ class Database:
             except Exception as e:
                 await self.message_callback(ExplorerMessage(ExplorerMessage.Type.DatabaseError, e))
 
-
     async def get_block_by_program_id(self, program_id: str) -> Block | None:
         conn: asyncpg.Connection
         async with self.pool.acquire() as conn:
@@ -1141,7 +1145,6 @@ class Database:
                 await self.message_callback(ExplorerMessage(ExplorerMessage.Type.DatabaseError, e))
                 raise
 
-
     async def get_program_called_times(self, program_id: str) -> int:
         conn: asyncpg.Connection
         async with self.pool.acquire() as conn:
@@ -1155,7 +1158,6 @@ class Database:
             except Exception as e:
                 await self.message_callback(ExplorerMessage(ExplorerMessage.Type.DatabaseError, e))
                 raise
-
 
     async def get_program_calls(self, program_id: str, start: int, end: int) -> list:
         conn: asyncpg.Connection
@@ -1189,7 +1191,6 @@ class Database:
             except Exception as e:
                 await self.message_callback(ExplorerMessage(ExplorerMessage.Type.DatabaseError, e))
                 raise
-
 
     # migration methods
     async def migrate(self):
