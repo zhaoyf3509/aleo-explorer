@@ -5,6 +5,9 @@ LABEL maintainer="aleo-explorer"
 LABEL version="testnet3"
 LABEL description="This is a custom image for Aleo Explorer"
 
+EXPOSE 8000
+EXPOSE 8001
+
 # install deps
 USER root
 RUN apt --fix-broken install && \
@@ -44,5 +47,4 @@ RUN git clone -b testnet3-hxc https://github.com/hxuchen/aleo-explorer.git && \
 
 # run
 USER root
-EXPOSE 8000
 CMD cd /aleo-explorer && python3 main.py
