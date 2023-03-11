@@ -4,7 +4,7 @@
 docker build -t aleo-explorer:testnet3 . --progress=plain > build.log 2>&1
 
 docker run -di \
-  --name aleo-explorer2 \
+  --name aleo-explorer \
   -p 8000:8000 \
   -p 8001:8001 \
   -e PYTHONUNBUFFERED=1 \
