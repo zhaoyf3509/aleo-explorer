@@ -44,4 +44,5 @@ RUN git clone -b testnet3-hxc https://github.com/hxuchen/aleo-explorer.git && \
 
 # run
 USER root
-CMD cd /aleo-explorer && python3 --version && python3 main.py
+EXPOSE 8000
+CMD cd /aleo-explorer && python3 main.py
