@@ -8,7 +8,8 @@ class Testnet3:
     network_id = u16(3)
     version = u32(5)
 
-    genesis_block = Block.load(bytearray(open(os.path.join(os.path.dirname(__file__), "block.genesis"), "rb").read()))
+    genesis_block = Block.load(bytearray(
+        open(os.environ.get("BLOCK_GENESIS", os.path.join(os.path.dirname(__file__), "block.genesis")), "rb").read()))
 
     block_locator_num_recents = 100
     block_locator_recent_interval = 1
