@@ -2286,6 +2286,18 @@ class BlockHeaderMetadata(Serialize, Deserialize):
                and self.last_coinbase_target == other.last_coinbase_target \
                and self.last_coinbase_timestamp == other.last_coinbase_timestamp and self.timestamp == other.timestamp
 
+    def __str__(self):
+        return f"""{{
+                network: {self.network}
+                round: {self.round}
+                height: {self.height}
+                coinbase_target: {self.coinbase_target}
+                proof_target: {self.proof_target}
+                last_coinbase_target: {self.last_coinbase_target}
+                last_coinbase_timestamp: {self.last_coinbase_timestamp}
+                timestamp: {self.timestamp}
+            }}"""
+
 
 class BlockHeader(Serialize, Deserialize):
     version = u16()
@@ -2334,14 +2346,12 @@ class BlockHeader(Serialize, Deserialize):
                self.metadata == other.metadata
 
     def __str__(self):
-        return f"""
-        BlockHeader: {{
+        return f"""{{
             previous_state_root: {self.previous_state_root}
             transactions_root: {self.transactions_root}
             coinbase_accumulator_point: {self.coinbase_accumulator_point}
             metadata: {self.metadata}
-        }}
-        """
+        }}"""
 
 
 class PuzzleCommitment(Serialize, Deserialize):
