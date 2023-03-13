@@ -1087,7 +1087,7 @@ routes = [
     Route("/address_solution", address_solution_route),
     # Other
     Route("/advanced", advanced_route),
-    Route("/faq", faq_route),
+    # Route("/faq", faq_route),
     Route("/privacy", privacy_route),
     Route("/robots.txt", robots_route),
     Route("/cf", cloudflare_error_page),

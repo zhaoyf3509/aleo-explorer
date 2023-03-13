@@ -1,6 +1,6 @@
 {% extends "base.jinja2" %}
 
-{% block title %}Transition {{ ts_id_trunc }} - Haruka's Aleo Explorer{% endblock %}
+{% block title %}Transition {{ ts_id_trunc }} - Aleo Explorer{% endblock %}
 
 {% block head %}
 
@@ -171,7 +171,7 @@
         const text = document.getElementById("wallet-connect-text")
         let wallet = null
         if (window.LeoWallet !== undefined) {
-            wallet = new window.LeoWallet.LeoWalletAdapter({appName: "Haruka's Aleo Explorer"})
+            wallet = new window.LeoWallet.LeoWalletAdapter({appName: "Aleo Explorer"})
             if (wallet && wallet.readyState !== "NotDetected") {
                 button.style.display = ""
             }

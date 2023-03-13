@@ -144,18 +144,18 @@
     <div class="menubar">
         <div class="top-bar-left">
             <ul class="dropdown menu" data-dropdown-menu>
-                <li class="menu-text">Haruka's Aleo Explorer</li>
+                <li class="menu-text">Aleo Explorer</li>
                 <li><a href="/">Home</a></li>
                 <li><a href="/blocks">Blocks</a></li>
                 <li><a href="/programs">Programs</a></li>
-                <li>
-                    <a href="#">Proving</a>
-                    <ul class="menu">
-                        <li><a href="/leaderboard">Leaderboard</a></li>
-                        <li><a href="/calc">Calc</a></li>
-                    </ul>
-                </li>
-                <li><a href="/faq">FAQ</a></li>
+{#                <li>#}
+{#                    <a href="#">Proving</a>#}
+{#                    <ul class="menu">#}
+{#                        <li><a href="/leaderboard">Leaderboard</a></li>#}
+{#                        <li><a href="/calc">Calc</a></li>#}
+{#                    </ul>#}
+{#                </li>#}
+{#                <li><a href="/faq">FAQ</a></li>#}
             </ul>
         </div>
         <div class="top-bar-right">
@@ -217,13 +217,13 @@
         Timezone display: <a onclick="toggle_timezone()"><span id="timezone-setting"></span></a><br>
         Advanced mode: <a onclick="toggle_advanced()"><span id="advanced-setting"></span></a><br>
     </div>
-    <div class="footer">
-        <a href="https://github.com/HarukaMa/aleo-explorer" target="_blank">Open source</a> Aleo explorer made by Haruka. <br>
-        {% if "CLOUDFLARE" | get_env %} Contains CloudFlare analytics.{% endif %}
-        {% if "MATOMO" | get_env %} Contains self-hosted Matomo analytics. <a onclick="toggle_optout()"><span id="matomo-optout"></span></a>.{% endif %}
-        <a href="/privacy">Privacy policy</a>.
-        <br>
-    </div>
+{#    <div class="footer">#}
+{#        <a href="https://github.com/HarukaMa/aleo-explorer" target="_blank">Open source</a> Aleo explorer made by Haruka. <br>#}
+{#        {% if "CLOUDFLARE" | get_env %} Contains CloudFlare analytics.{% endif %}#}
+{#        {% if "MATOMO" | get_env %} Contains self-hosted Matomo analytics. <a onclick="toggle_optout()"><span id="matomo-optout"></span></a>.{% endif %}#}
+{#        <a href="/privacy">Privacy policy</a>.#}
+{#        <br>#}
+{#    </div>#}
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
