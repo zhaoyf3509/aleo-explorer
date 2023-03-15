@@ -1081,16 +1081,16 @@ routes = [
     Route("/programs", programs_route),
     Route("/program", program_route),
     # Proving
-    Route("/calc", calc_route),
-    Route("/leaderboard", leaderboard_route),
+    # Route("/calc", calc_route),
+    # Route("/leaderboard", leaderboard_route),
     Route("/address", address_route),
     Route("/address_solution", address_solution_route),
     # Other
     Route("/advanced", advanced_route),
     # Route("/faq", faq_route),
-    Route("/privacy", privacy_route),
-    Route("/robots.txt", robots_route),
-    Route("/cf", cloudflare_error_page),
+    # Route("/privacy", privacy_route),
+    # Route("/robots.txt", robots_route),
+    # Route("/cf", cloudflare_error_page),
     Mount("/static", StaticFiles(directory="webui/static"), name="static"),
 ]
 
